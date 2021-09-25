@@ -1,23 +1,58 @@
-import logo from './logo.svg';
+import React, { useState } from 'react'
+
 import './App.css';
+// import { initial } from 'lodash';
+import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
+import _ from "lodash"
+import {v4} from "uuid"
+
+const item = {
+  id: v4(),
+  name: "clean the house"
+}
+
+console.log(item)
 
 function App() {
+  const [state, setState] = useState({
+    "todo": {
+      title: "Todo",
+      items: [item]
+    },
+    "in-progress": {
+      title: "In Progress",
+      items: []
+    },
+    "done": {
+      title: "Completed",
+      items: []
+    }
+  })
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <DragDropContext onDragEnd={e => console.log(e)}>
+        {_.map(state, (data, key) => {
+            return (
+              <div key={key} className={"column"}>
+                <h3>{data.title}</h3>
+                <Droppable droppableId={key}>
+                {(provided) => {
+                  return (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className={"droppable-col"}
+                    >
+                      
+                    </div>
+                  )
+                }}
+              </Droppable>
+              </div>
+            )
+        })}
+      </DragDropContext>
     </div>
   );
 }
