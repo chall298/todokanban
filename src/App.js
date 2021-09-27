@@ -18,6 +18,7 @@ const item2 = {
 
 
 function App() {
+  const [text, setText] = useState("")
   const [state, setState] = useState({
     "todo": {
       title: "Todo",
@@ -46,12 +47,15 @@ function App() {
       console.log("dropped in same palce")
       return
     }
-
+    // Creating a copy of item before removing it from state
     const itemCopy = {...state[source.droppableId].items[source.index]}
     setState(prev => {
       prev= {...prev}
+
+      // Reomove from previous items array
       prev[source.droppableId].items.splice(source.index, 1)
 
+      // Addint to new items array location
       prev[destination.droppableId].items.splice(destination.index, 0, itemCopy)
 
 
@@ -62,8 +66,35 @@ function App() {
     })
   }
 
+  const addItem = () => {
+    setState(prev=>{
+      return {
+      ...prev, 
+      todo: {
+        title: "title",
+        items: [
+          {
+            id: v4(),
+            name: text
+          },
+          ...prev.todo.items
+        ]
+      }
+    }
+    })
+    setText("")
+  }
+
   return (
     <div className="App">
+      <div>
+        <input type="text" value={text} onChange={(e) =>setText(e.target.value)}/>
+        {text === "" ? "" : (
+          <button onClick={addItem}> 
+          Add
+        </button>
+        )}
+      </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         {_.map(state, (data, key) => {
             return (
