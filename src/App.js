@@ -22,7 +22,7 @@ function App() {
   const [state, setState] = useState({
     "todo": {
       title: "Todo",
-      items: [item,item2]
+      items: []
     },
     "in-progress": {
       title: "In Progress",
