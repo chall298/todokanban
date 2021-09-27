@@ -101,7 +101,8 @@ function App() {
               <div key={key} className={"column"}>
                 <h3>{data.title}</h3>
                 <Droppable droppableId={key}>
-                {(provided) => {
+                {(provided, snapshot) => {
+                  console.log(snapshot)
                   return (
                     <div
                       ref={provided.innerRef}
@@ -111,10 +112,11 @@ function App() {
                       {data.items.map((el, index) => {
                         return (
                           <Draggable key={el.id} index={index} draggableId={el.id}>
-                            {(provided) => {
+                            {(provided, snapshot) => {
+                              console.log(snapshot)
                               return (
                                 <div
-                                  className={"item"}
+                                  className={`item ${snapshot.isDragging && "dragging"}`}
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
