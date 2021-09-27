@@ -13,7 +13,7 @@ const item = {
 
 const item2 = {
   id: v4(),
-  name: "car wash"
+  name: "wash the car"
 }
 
 
